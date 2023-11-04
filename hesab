@@ -3,6 +3,7 @@
 import sqlite3
 import jdatetime
 import click
+import time
 
 # defaults. should change later
 sql_filename = 'hesab.sql'
@@ -18,4 +19,7 @@ def list_entries():
         date = jdatetime.datetime.fromtimestamp(int(entry[1])).date()
         value = entry[2]
         print(name, date, value)
+
+def add_entry(name, date, value):
+    sql_cursor.execute(f'''INSERT INTO {tablename} VALUES(?,?,?)''', [name, date, value])
 
