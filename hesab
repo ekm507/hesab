@@ -18,8 +18,11 @@ def list_entries():
         name = entry[0]
         date = jdatetime.datetime.fromtimestamp(int(entry[1])).date()
         value = entry[2]
-        print(i, name, date, value)
+        print(i + 1, name, date, value)
 
 def add_entry(name, date, value):
     sql_cursor.execute(f'''INSERT INTO {tablename} VALUES(?,?,?)''', [name, date, value])
+
+def remove_entry(entry_id):
+    sql_cursor.execute(f"""DELETE FROM {tablename} LIMIT {entry_id-1},{1};""")
 
