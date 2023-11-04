@@ -14,11 +14,11 @@ sql_cursor = connection.cursor()
 
 def list_entries():
     entries = sql_cursor.execute(f'SELECT * FROM {tablename}')
-    for entry in entries:
+    for i, entry in enumerate(entries):
         name = entry[0]
         date = jdatetime.datetime.fromtimestamp(int(entry[1])).date()
         value = entry[2]
-        print(name, date, value)
+        print(i, name, date, value)
 
 def add_entry(name, date, value):
     sql_cursor.execute(f'''INSERT INTO {tablename} VALUES(?,?,?)''', [name, date, value])
