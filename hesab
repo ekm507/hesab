@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python
 
 import sqlite3
 import jdatetime
@@ -12,17 +12,56 @@ tablename = 'standard'
 connection = sqlite3.connect(sql_filename)
 sql_cursor = connection.cursor()
 
-def list_entries():
+def get_entries_list():
     entries = sql_cursor.execute(f'SELECT * FROM {tablename}')
+    entries_list = []
     for i, entry in enumerate(entries):
         name = entry[0]
         date = jdatetime.datetime.fromtimestamp(int(entry[1])).date()
         value = entry[2]
-        print(i + 1, name, date, value)
+        entries_list.append((i + 1, name, date, value))
+    return entries_list
+
+def print_entries_list(entries):
+    for entry in entries:
+        index = entry[0]
+        name = entry[1]
+        date = entry[2].strftime("%y-%m-%d")
+        value = entry[3]
+        
+        print(f'{index}:   {date}    {name}   \t {value}')
+
 
 def add_entry(name, date, value):
     sql_cursor.execute(f'''INSERT INTO {tablename} VALUES(?,?,?)''', [name, date, value])
+    connection.commit()
+
+def add_entry_with_date(name, value):
+    date = time.time()
+    add_entry(name, date, value)
 
 def remove_entry(entry_id):
     sql_cursor.execute(f"""DELETE FROM {tablename} LIMIT {entry_id-1},{1};""")
+    connection.commit()
 
+
+@click.group()
+def cli():
+    pass
+
+@cli.command()
+@click.argument('name')
+@click.argument('value')
+def add(name, value):
+    add_entry_with_date(name, value)
+    click.echo(f'added {name} with {value}')
+
+@cli.command("list")
+def list_entries():
+    entries = get_entries_list()
+    print_entries_list(entries)
+# remove_entry(1)
+
+# list_entries()
+if __name__ == '__main__':
+    cli()
