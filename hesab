@@ -14,17 +14,44 @@ tablename = 'standard'
 connection = sqlite3.connect(sql_filename)
 sql_cursor = connection.cursor()
 
+def create_database():
+    sql_filename = 'hesab.sql'
+    connection = sqlite3.connect(sql_filename)
+    sql_cursor = connection.cursor()
+    tablename = 'standard'
+    sql_cursor.execute(f'''CREATE TABLE IF NOT EXISTS {tablename} (
+        date DATETIME,
+        name TEXT,
+        value REAL
+        )''')
+    connection.commit()
+
+
 def get_entries_list():
     entries = sql_cursor.execute(f'SELECT * FROM {tablename}')
     entries_list = []
     for i, entry in enumerate(entries):
-        name = entry[0]
-        date = jdatetime.datetime.fromtimestamp(int(entry[1])).date()
+        # date = jdatetime.datetime.fromtimestamp(int(entry[0])).date()
+        date = entry[0]
+        name = entry[1]
         value = entry[2]
-        entries_list.append((i + 1, name, date, value))
+        entries_list.append((i + 1, date, name, value))
     return entries_list
 
+def flatten_entries_date(entries):
+    output = map(lambda entry:(entry[0], jdatetime.datetime.fromtimestamp(int(entry[1])).date(), entry[2], entry[3]), entries)
+    return list(output)
+
+def filter_entries_today(entries):
+    entries = flatten_entries_date(entries)
+    today_date = jdatetime.datetime.fromtimestamp(time.time()).date()
+    output = filter(lambda entry:entry[1] == today_date, entries)
+    return list(output)
+
+
 def print_entries_list(entries):
+
+    entries = filter_entries_today(entries)
 
     egg_price = 5 # how much is an egg today?
 
@@ -38,8 +65,9 @@ def print_entries_list(entries):
 
     for entry in entries:
         index = str(entry[0])
-        name = entry[1]
-        date = entry[2].strftime("%y-%m-%d")
+        date = entry[1].strftime("%y-%m-%d")
+        name = entry[2]
+        
         value = str(entry[3])
         value_egg = str((entry[3] / egg_price*100)//1/100)
         table.add_row(index, date, name, value, value_egg)
@@ -48,13 +76,13 @@ def print_entries_list(entries):
     # print(f'{index}:   {date}    {name}   \t {value}')
 
 
-def add_entry(name, date, value):
-    sql_cursor.execute(f'''INSERT INTO {tablename} VALUES(?,?,?)''', [name, date, value])
+def add_entry(date, name, value):
+    sql_cursor.execute(f'''INSERT INTO {tablename} VALUES(?,?,?)''', [date, name, value])
     connection.commit()
 
 def add_entry_with_date(name, value):
     date = time.time()
-    add_entry(name, date, value)
+    add_entry(date, name, value)
 
 def remove_entry(entry_id):
     sql_cursor.execute(f"""DELETE FROM {tablename} LIMIT {entry_id-1},{1};""")
@@ -80,4 +108,5 @@ def list_entries():
 
 # list_entries()
 if __name__ == '__main__':
+    # create_database()
     cli()
