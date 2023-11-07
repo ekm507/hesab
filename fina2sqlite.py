@@ -7,8 +7,8 @@ connection = sqlite3.connect(sql_filename)
 sql_cursor = connection.cursor()
 tablename = 'standard'
 sql_cursor.execute(f'''CREATE TABLE IF NOT EXISTS {tablename} (
-    name TEXT,
     date DATETIME,
+    name TEXT,
     value REAL
     )''')
 connection.commit()
@@ -22,6 +22,6 @@ for entryindex in json_data.keys():
     name = entry['name']
     value = entry['value']
 
-    sql_cursor.execute(f'''INSERT INTO {tablename} VALUES(?,?,?)''', [name, date, value])
+    sql_cursor.execute(f'''INSERT INTO {tablename} VALUES(?,?,?)''', [date, name, value])
 
 connection.commit()
