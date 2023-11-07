@@ -4,6 +4,8 @@ import sqlite3
 import jdatetime
 import click
 import time
+from rich.table import Table
+from rich import print as rprint
 
 # defaults. should change later
 sql_filename = 'hesab.sql'
@@ -23,13 +25,27 @@ def get_entries_list():
     return entries_list
 
 def print_entries_list(entries):
+
+    egg_price = 5 # how much is an egg today?
+
+    table = Table(title="دخل‌وخرج‌ها", expand=True)
+
+    table.add_column("اندیس", justify="right", style="cyan", no_wrap=True)
+    table.add_column("تاریخ", justify="right", style="cyan", no_wrap=True)
+    table.add_column("عنوان", style="magenta")
+    table.add_column("مبلغ تومان‌ریال", justify="right", style="green")
+    table.add_column(f"🥚={egg_price}", justify="right", style="green")
+
     for entry in entries:
-        index = entry[0]
+        index = str(entry[0])
         name = entry[1]
         date = entry[2].strftime("%y-%m-%d")
-        value = entry[3]
-        
-        print(f'{index}:   {date}    {name}   \t {value}')
+        value = str(entry[3])
+        value_egg = str((entry[3] / egg_price*100)//1/100)
+        table.add_row(index, date, name, value, value_egg)
+
+    rprint(table)        
+    # print(f'{index}:   {date}    {name}   \t {value}')
 
 
 def add_entry(name, date, value):
