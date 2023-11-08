@@ -67,18 +67,18 @@ def print_entries_list(entries):
     egg_price = 5 # how much is an egg today?
 
     table_earn = Table(title="دخل", box=box.SIMPLE_HEAVY)
-    table_earn.add_column(f"🥚={egg_price}", justify="right", style="green")
-    table_earn.add_column("مبلغ تومان‌ریال", justify="right", style="green")
-    table_earn.add_column("عنوان", style="magenta", justify="right")
-    table_earn.add_column("تاریخ", justify="right", style="cyan", no_wrap=True)
     table_earn.add_column("اندیس", justify="right", style="cyan", no_wrap=True)
+    table_earn.add_column("تاریخ", justify="right", style="cyan", no_wrap=True)
+    table_earn.add_column("عنوان", style="magenta", justify="right")
+    table_earn.add_column("مبلغ تومان‌ریال", justify="right", style="green")
+    table_earn.add_column(f"🥚={egg_price}", justify="right", style="green")
 
     table_expense = Table(title="خرج", box=box.SIMPLE_HEAVY)
-    table_expense.add_column(f"🥚={egg_price}", justify="right", style="green")
-    table_expense.add_column("مبلغ تومان‌ریال", justify="right", style="green")
-    table_expense.add_column("عنوان", style="magenta", justify="right")
-    table_expense.add_column("تاریخ", justify="right", style="cyan", no_wrap=True)
     table_expense.add_column("اندیس", justify="right", style="cyan", no_wrap=True)
+    table_expense.add_column("تاریخ", justify="right", style="cyan", no_wrap=True)
+    table_expense.add_column("عنوان", style="magenta", justify="right")
+    table_expense.add_column("مبلغ تومان‌ریال", justify="right", style="green")
+    table_expense.add_column(f"🥚={egg_price}", justify="right", style="green")
 
     for entry in entries:
         index = str(entry[0])
@@ -119,7 +119,7 @@ def remove_entry(entry_id):
 def cli():
     pass
 
-@cli.command()
+@cli.command(context_settings={"ignore_unknown_options": True})
 @click.argument('name', nargs=1)
 @click.argument('value', nargs=1)
 def add(name, value):
