@@ -4,6 +4,7 @@ import sqlite3
 import jdatetime
 import click
 import time
+import os
 from rich.table import Table, box
 from rich import print as rprint
 
@@ -11,14 +12,10 @@ from rich import print as rprint
 sql_filename = 'hesab.sql'
 tablename = 'standard'
 
-connection = sqlite3.connect(sql_filename)
-sql_cursor = connection.cursor()
 
 def create_database():
-    sql_filename = 'hesab.sql'
     connection = sqlite3.connect(sql_filename)
     sql_cursor = connection.cursor()
-    tablename = 'standard'
     sql_cursor.execute(f'''CREATE TABLE IF NOT EXISTS {tablename} (
         date INT,
         name TEXT,
@@ -27,11 +24,15 @@ def create_database():
     connection.commit()
 
 def fetch_entries_today():
+    connection = sqlite3.connect(sql_filename)
+    sql_cursor = connection.cursor()
     today_date = jdatetime.datetime.now().toordinal()
     entries = sql_cursor.execute(f'SELECT * FROM {tablename} where date={today_date}')
     return entries
 
 def fetch_entries_all():
+    connection = sqlite3.connect(sql_filename)
+    sql_cursor = connection.cursor()
     entries = sql_cursor.execute(f'SELECT * FROM {tablename}')
     return entries
 
@@ -103,6 +104,8 @@ def print_entries_list(entries):
 
 
 def add_entry(date, name, value):
+    connection = sqlite3.connect(sql_filename)
+    sql_cursor = connection.cursor()
     sql_cursor.execute(f'''INSERT INTO {tablename} VALUES(?,?,?)''', [date, name, value])
     connection.commit()
 
@@ -111,8 +114,20 @@ def add_entry_with_date(name, value):
     add_entry(date, name, value)
 
 def remove_entry(entry_id):
+    connection = sqlite3.connect(sql_filename)
+    sql_cursor = connection.cursor()
     sql_cursor.execute(f"""DELETE FROM {tablename} LIMIT {entry_id-1},{1};""")
     connection.commit()
+
+def database_exists():
+    if os.path.exists(sql_filename):
+        return True
+    else:
+        return False
+
+def check_database():
+    if not database_exists():
+        create_database()
 
 
 @click.group()
@@ -134,5 +149,8 @@ def list_entries():
 
 # list_entries()
 if __name__ == '__main__':
-    # create_database()
-    cli()
+    check_database()
+    try:
+        cli()
+    except sqlite3.OperationalError:
+        print("there is an Error in database file")
