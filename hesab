@@ -31,8 +31,12 @@ def fetch_entries_today():
     entries = sql_cursor.execute(f'SELECT * FROM {tablename} where date={today_date}')
     return entries
 
-def get_entries_list():
+def fetch_entries_all():
     entries = sql_cursor.execute(f'SELECT * FROM {tablename}')
+    return entries
+
+def get_entries_list():
+    entries = fetch_entries_all()
     # entries = fetch_entries_today()
     entries_list = []
     for i, entry in enumerate(entries):
