@@ -120,8 +120,8 @@ def cli():
     pass
 
 @cli.command()
-@click.argument('name')
-@click.argument('value')
+@click.argument('name', nargs=1)
+@click.argument('value', nargs=1)
 def add(name, value):
     add_entry_with_date(name, value)
     click.echo(f'added {name} with {value}')
