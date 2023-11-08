@@ -145,9 +145,14 @@ def add(name, value):
 def list_entries():
     entries = get_entries_list()
     print_entries_list(entries)
-# remove_entry(1)
 
-# list_entries()
+@cli.command("remove")
+@click.argument('number', nargs=1, type=int)
+def list_entries(number):
+    remove_entry(number)
+    print(f'record {number} removed.')
+
+
 if __name__ == '__main__':
     check_database()
     try:
