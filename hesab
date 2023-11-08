@@ -20,15 +20,20 @@ def create_database():
     sql_cursor = connection.cursor()
     tablename = 'standard'
     sql_cursor.execute(f'''CREATE TABLE IF NOT EXISTS {tablename} (
-        date DATETIME,
+        date INT,
         name TEXT,
         value REAL
         )''')
     connection.commit()
 
+def fetch_entries_today():
+    today_date = jdatetime.datetime.now().toordinal()
+    entries = sql_cursor.execute(f'SELECT * FROM {tablename} where date={today_date}')
+    return entries
 
 def get_entries_list():
     entries = sql_cursor.execute(f'SELECT * FROM {tablename}')
+    # entries = fetch_entries_today()
     entries_list = []
     for i, entry in enumerate(entries):
         # date = jdatetime.datetime.fromtimestamp(int(entry[0])).date()
@@ -38,13 +43,14 @@ def get_entries_list():
         entries_list.append((i + 1, date, name, value))
     return entries_list
 
-def flatten_entries_date(entries):
-    output = map(lambda entry:(entry[0], jdatetime.datetime.fromtimestamp(int(entry[1])).date(), entry[2], entry[3]), entries)
-    return list(output)
+# def flatten_entries_date(entries):
+#     output = map(lambda entry:(entry[0], jdatetime.datetime.fromtimestamp(int(entry[1])).date(), entry[2], entry[3]), entries)
+#     return list(output)
 
 def filter_entries_today(entries):
-    entries = flatten_entries_date(entries)
-    today_date = jdatetime.datetime.fromtimestamp(time.time()).date()
+    # entries = flatten_entries_date(entries)
+    today_date = jdatetime.datetime.now().toordinal()
+    # today_date = jdatetime.datetime.fromtimestamp(time.time()).date()
     output = filter(lambda entry:entry[1] == today_date, entries)
     return list(output)
 
@@ -52,7 +58,7 @@ def filter_entries_today(entries):
 def print_entries_list(entries):
 
     # entries = filter_entries_today(entries)
-    entries = flatten_entries_date(entries)
+    # entries = flatten_entries_date(entries)
 
     egg_price = 5 # how much is an egg today?
 
@@ -72,7 +78,7 @@ def print_entries_list(entries):
 
     for entry in entries:
         index = str(entry[0])
-        date = entry[1].strftime("%y-%m-%d")
+        date =jdatetime.datetime.fromordinal(entry[1]).strftime("%y-%m-%d")
         name = entry[2]
         value = entry[3]
         value_str = str(value)
@@ -97,7 +103,7 @@ def add_entry(date, name, value):
     connection.commit()
 
 def add_entry_with_date(name, value):
-    date = time.time()
+    date = jdatetime.datetime.now().toordinal()
     add_entry(date, name, value)
 
 def remove_entry(entry_id):
