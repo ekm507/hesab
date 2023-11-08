@@ -66,18 +66,18 @@ def print_entries_list(entries):
 
     egg_price = 5 # how much is an egg today?
 
-    table_earn = Table(title="دخل", box=box.SIMPLE_HEAVY)
+    table_earn = Table(title="دخل", box=box.SIMPLE_HEAVY, expand=True)
     table_earn.add_column("اندیس", justify="right", style="cyan", no_wrap=True)
     table_earn.add_column("تاریخ", justify="right", style="cyan", no_wrap=True)
     table_earn.add_column("عنوان", style="magenta", justify="right")
-    table_earn.add_column("مبلغ تومان‌ریال", justify="right", style="green")
+    table_earn.add_column("مبلغ", justify="right", style="green")
     table_earn.add_column(f"🥚={egg_price}", justify="right", style="green")
 
-    table_expense = Table(title="خرج", box=box.SIMPLE_HEAVY)
+    table_expense = Table(title="خرج", box=box.SIMPLE_HEAVY, expand=True)
     table_expense.add_column("اندیس", justify="right", style="cyan", no_wrap=True)
     table_expense.add_column("تاریخ", justify="right", style="cyan", no_wrap=True)
     table_expense.add_column("عنوان", style="magenta", justify="right")
-    table_expense.add_column("مبلغ تومان‌ریال", justify="right", style="green")
+    table_expense.add_column("مبلغ", justify="right", style="green")
     table_expense.add_column(f"🥚={egg_price}", justify="right", style="green")
 
     for entry in entries:
@@ -95,8 +95,8 @@ def print_entries_list(entries):
         # table.border_style='red'
 
     grid = Table(expand=True, title="دخل‌وخرج‌ها", show_header=False)
-    grid.add_column("دخل")
-    grid.add_column("خرج")
+    grid.add_column("دخل", ratio=1)
+    grid.add_column("خرج", ratio=1)
     grid.add_row(table_earn, table_expense)
     rprint(grid)
     # print(f'{index}:   {date}    {name}   \t {value}')
