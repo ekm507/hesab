@@ -18,7 +18,7 @@ json_data = json.load(open(json_filename))['standard']
 
 for entryindex in json_data.keys():
     entry = json_data[entryindex]
-    date = datetime.datetime.fromisoformat(entry['date']).timestamp()
+    date = datetime.datetime.fromisoformat(entry['date']).toordinal()
     name = entry['name']
     value = entry['value']
 
