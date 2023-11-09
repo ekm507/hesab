@@ -2,21 +2,22 @@
 
 echo "Welcome to hesab installer"
 
-cd ~/.config
+cd ~/.local/share
 git clone https://github.com/ekm507/hesab.git
 cd hesab
 python3 -m venv .venv
-source ~/.config/hesab/.venv/bin/activate
+source .venv/bin/activate
 python -m pip install -r requirements.txt
 
 cd ~/.local/bin/
 
 echo "#!/bin/bash
 
-source ~/.config/hesab/.venv/bin/activate
+source ~/.local/share/hesab/.venv/bin/activate
 
-cd ~/.config/hesab/
+cd ~/.local/share/hesab/
 
-./hesab" > hesab
+./hesab "\$@"" > hesab
+chmod +x hesab
 
 echo "Installation done! you can use hesab by typing "hesab" into your terminal."

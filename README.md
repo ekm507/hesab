@@ -7,7 +7,7 @@
 
 با دستور زیر حساب را نصب کنید. پس از اجرا به دستور `hesab` در خط‌فرمان دسترسی خواهید داشت.
 ```bash
-$ curl "https://raw.githubusercontent.com/ekm507/hesab/main/installer.sh" | bash
+$ curl "https://raw.githubusercontent.com/ekm507/hesab/main/install.sh" | bash
 ```
 
 # برای توسعه
