@@ -26,6 +26,10 @@ python -m pip install -r requirements.txt
 ./hesab list
 ```
 
+تصویر نمونه
+![image](https://github.com/ekm507/hesab/assets/13185969/4669047b-8c06-4166-bcaa-bf03192fbea0)
+
+
 # نقشهٔ راه توسعه
 در هر نگارش اصلی قرار است یک سری ویژگی به نرم‌افزار افزوده شوند.
 
