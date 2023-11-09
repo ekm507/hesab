@@ -3,8 +3,14 @@
 echo "Welcome to hesab installer"
 
 cd ~/.local/share
-git clone https://github.com/ekm507/hesab.git
-cd hesab
+if [ -d hesab ]
+then
+    cd hesab
+    git pull
+else
+    git clone https://github.com/ekm507/hesab.git
+    cd hesab
+fi
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
