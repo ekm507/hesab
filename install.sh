@@ -17,7 +17,7 @@ source ~/.local/share/hesab/.venv/bin/activate
 
 cd ~/.local/share/hesab/
 
-./hesab "\$@"" > hesab
+./hesab \"\$@\"" > hesab
 chmod +x hesab
 
 echo 'Installation done! you can use hesab by typing "hesab" into your terminal.'
