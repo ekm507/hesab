@@ -10,6 +10,8 @@
 $ curl "https://raw.githubusercontent.com/ekm507/hesab/main/install.sh" | bash
 ```
 
+![image](https://github.com/ekm507/hesab/assets/13185969/f50801a9-5b37-450f-b4a2-4fe44af049f8)
+
 # برای توسعه
 
 نرم‌افزار هنوز شدیداً در حال توسعه است اما می‌توانید چنین استفاده‌اش کنید:
@@ -33,10 +35,6 @@ python -m pip install -r requirements.txt
 ./hesab add "ice cream" -20
 ./hesab list
 ```
-
-تصویر نمونه
-![image](https://github.com/ekm507/hesab/assets/13185969/4669047b-8c06-4166-bcaa-bf03192fbea0)
-
 
 # نقشهٔ راه توسعه
 در هر نگارش اصلی قرار است یک سری ویژگی به نرم‌افزار افزوده شوند.
