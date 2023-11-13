@@ -1,0 +1,12 @@
+*~
+*.swp
+__pycache__
+*.pyc
+.pypirc
+.pybuild/
+build/
+dist/
+*.egg-info/
+.env/
+venv/
+hesab.sql

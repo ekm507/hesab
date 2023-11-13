@@ -1,0 +1,34 @@
+[project]
+name = "hesab"
+version = "0.2.0"
+authors = [
+    {name = "Erfan Kheyrollahi Qaroğlu", email = "ekm507@gmail.com"},
+]
+description = "A CLI personal accounting app with Persian calendar"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "click",
+    "jdatetime",
+    "rich",
+]
+keywords = [
+    "Accounting",
+    "persian",
+]
+
+[project.license]
+file = "LICENSE"
+
+[project.scripts]
+hesab = "hesab:main"
+
+[project.urls]
+"Homepage" = "https://github.com/ekm507/hesab"
+"Bug Tracker" = "https://github.com/ekm507/hesab/issues"
+"Source Code" = "https://github.com/ekm507/hesab"
