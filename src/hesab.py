@@ -10,12 +10,13 @@ import os
 import sqlite3
 import jdatetime
 import click
+from appdirs import user_data_dir
 from rich.table import Table, box
 from rich import print as rprint
 
 
 # defaults. should change later
-SQL_FILENAME = "hesab.sql"
+SQL_FILENAME = f"{user_data_dir('hesab')}/hesab.sql"
 TABLE_NAME = "standard"
 
 
